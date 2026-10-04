@@ -18,7 +18,7 @@ include:
   - compose/syncthing/syncthing.yaml
   - compose/trilium/trilium.yaml
   - compose/ttrss/ttrss.yaml
-  - compose/vikunja/vikunja.yaml
+  # - compose/vikunja/vikunja.yaml
   - compose/watchtower.yaml
 
 services:
@@ -57,7 +57,7 @@ services:
       - --entryPoints.traefik.address=:${PORT_DASHBOARD}
       - --entryPoints.ttrss.address=:${PORT_TTRSS}
       - --entryPoints.ttrss.forwardedHeaders.insecure
-      - --entryPoints.vikunja.address=:${PORT_VIKUNJA}
+      # - --entryPoints.vikunja.address=:${PORT_VIKUNJA}
       - --entryPoints.pinchflat.address=:${PORT_PINCHFLAT}
 
       - --experimental.plugins.sablier.modulename=github.com/sablierapp/sablier
@@ -87,7 +87,7 @@ services:
       - "${PORT_TRILIUM}:${PORT_TRILIUM}"
       - "${PORT_SYNCTHING}:${PORT_SYNCTHING}"
       - "${PORT_TTRSS}:${PORT_TTRSS}"
-      - "${PORT_VIKUNJA}:${PORT_VIKUNJA}"
+      # - "${PORT_VIKUNJA}:${PORT_VIKUNJA}"
       - "${PORT_PINCHFLAT}:${PORT_PINCHFLAT}"
     volumes:
       # So that Traefik can listen to the Docker events
@@ -108,7 +108,7 @@ services:
       - ./compose/syncthing/dynamic.yaml:/etc/traefik/dynamic/syncthing.yaml
       - ./compose/trilium/dynamic.yaml:/etc/traefik/dynamic/trilium.yaml
       - ./compose/ttrss/dynamic.yaml:/etc/traefik/dynamic/ttrss.yaml
-      - ./compose/vikunja/dynamic.yaml:/etc/traefik/dynamic/vikunja.yaml
+      # - ./compose/vikunja/dynamic.yaml:/etc/traefik/dynamic/vikunja.yaml
       - ~/volumes/letsencrypt:/letsencrypt
     labels:
       - "traefik.enable=true"
