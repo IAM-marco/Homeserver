@@ -1,0 +1,21 @@
+http:
+  routers:
+    trilium:
+      entryPoints:
+        - trilium
+      rule: Host(`{{ env "TRILIUM_ENDPOINT_URL" }}`)
+      middlewares:
+        - trilium-headers
+      service: trilium-service
+
+  middlewares:
+    trilium-headers:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+
+  services:
+    trilium-service:
+      loadBalancer:
+        servers:
+          - url: http://trilium:8080

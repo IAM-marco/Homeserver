@@ -1,0 +1,34 @@
+services:
+  trilium:
+    image: triliumnext/trilium:latest
+    container_name: trilium
+    restart: unless-stopped
+    environment:
+      TRILIUM_DATA_DIR: /home/node/trilium-data
+      TRILIUM_NETWORK_TRUSTEDREVERSEPROXY: 172.19.0.0/16
+      USER_UID: "1000"
+      USER_GID: "1000"
+    volumes:
+      - ~/volumes/trilium:/home/node/trilium-data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - traefik
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "require('http').get('http://127.0.0.1:8080/api/health-check', r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    labels:
+      - "homepage.group=Productivity"
+      - "homepage.name=Trilium"
+      - "homepage.icon=trilium.svg"
+      - "homepage.href=https://${TRILIUM_ENDPOINT_URL}"
+      - "homepage.description=Personal knowledge base"
+    networks:
+      - frontend

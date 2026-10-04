@@ -13,8 +13,9 @@ include:
   - compose/redlib/redlib.yaml
   - compose/sablier/sablier.yaml
   - compose/searxng/searxng.yaml
-  - compose/silverbullet/silverbullet.yaml
+  # - compose/silverbullet/silverbullet.yaml
   - compose/syncthing/syncthing.yaml
+  - compose/trilium/trilium.yaml
   - compose/ttrss/ttrss.yaml
   - compose/vikunja/vikunja.yaml
   - compose/watchtower.yaml
@@ -47,7 +48,7 @@ services:
       - --entryPoints.n8n.address=:${PORT_N8N}
       - --entryPoints.redlib.address=:${PORT_REDLIB}
       - --entryPoints.searxng.address=:${PORT_SEARXNG}
-      - --entryPoints.silverbullet.address=:${PORT_SILVERBULLET}
+      - --entryPoints.trilium.address=:${PORT_TRILIUM}
       - --entryPoints.syncthing.address=:${PORT_SYNCTHING}
       - --entryPoints.traefik.address=:${PORT_DASHBOARD}
       - --entryPoints.ttrss.address=:${PORT_TTRSS}
@@ -77,7 +78,7 @@ services:
       - "${PORT_N8N}:${PORT_N8N}"
       - "${PORT_REDLIB}:${PORT_REDLIB}"
       - "${PORT_SEARXNG}:${PORT_SEARXNG}"
-      - "${PORT_SILVERBULLET}:${PORT_SILVERBULLET}"
+      - "${PORT_TRILIUM}:${PORT_TRILIUM}"
       - "${PORT_SYNCTHING}:${PORT_SYNCTHING}"
       - "${PORT_TTRSS}:${PORT_TTRSS}"
       - "${PORT_VIKUNJA}:${PORT_VIKUNJA}"
@@ -97,8 +98,8 @@ services:
       - ./compose/redlib/dynamic.yaml:/etc/traefik/dynamic/redlib.yaml
       - ./compose/sablier/dynamic.yaml:/etc/traefik/dynamic/sablier.yaml
       - ./compose/searxng/dynamic.yaml:/etc/traefik/dynamic/searxng.yaml
-      - ./compose/silverbullet/dynamic.yaml:/etc/traefik/dynamic/silverbullet.yaml
       - ./compose/syncthing/dynamic.yaml:/etc/traefik/dynamic/syncthing.yaml
+      - ./compose/trilium/dynamic.yaml:/etc/traefik/dynamic/trilium.yaml
       - ./compose/ttrss/dynamic.yaml:/etc/traefik/dynamic/ttrss.yaml
       - ./compose/vikunja/dynamic.yaml:/etc/traefik/dynamic/vikunja.yaml
       - ~/volumes/letsencrypt:/letsencrypt
