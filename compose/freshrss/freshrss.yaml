@@ -19,7 +19,10 @@ services:
       - "homepage.description=Feed reader for images."
     environment:
       TZ: Europe/Rome
-      CRON_MIN: '3,33'
+      # Built-in batch refresh disabled; n8n staggers one feed at a time.
+      CRON_MIN: ''
+      # Allow only the local n8n webhook target.
+      INTERNAL_HOST_ALLOWLIST: 'n8n.internal.ardiz.me:8108'
     networks:
       - frontend
       - backend
