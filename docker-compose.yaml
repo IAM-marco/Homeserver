@@ -1,5 +1,6 @@
 include:
   - compose/actualbudget/actualbudget.yaml
+  - compose/firefly/firefly.yaml
   # - compose/duckdns.yaml
   - compose/freshrss/freshrss.yaml
   - compose/invoiceninja/invoiceninja.yaml
@@ -39,6 +40,9 @@ services:
 
       - --entryPoints.webSecure.address=:443
       - --entryPoints.actualbudget.address=:${PORT_ACTUALBUDGET}
+      - --entryPoints.firefly.address=:${PORT_FIREFLY}
+      - --entryPoints.firefly.forwardedHeaders.insecure
+      - --entryPoints.firefly-importer.address=:${PORT_FIREFLY_IMPORTER}
       - --entryPoints.freshrss.address=:${PORT_FRESHRSS}
       - --entryPoints.hoarder.address=:${PORT_HOARDER}
       - --entryPoints.homepage.address=:${PORT_HOMEPAGE}
@@ -69,6 +73,8 @@ services:
       # For certificates renewal
       - "443:443"
       - "${PORT_ACTUALBUDGET}:${PORT_ACTUALBUDGET}"
+      - "${PORT_FIREFLY}:${PORT_FIREFLY}"
+      - "${PORT_FIREFLY_IMPORTER}:${PORT_FIREFLY_IMPORTER}"
       - "${PORT_FRESHRSS}:${PORT_FRESHRSS}"
       - "${PORT_HOARDER}:${PORT_HOARDER}"
       - "${PORT_HOMEPAGE}:${PORT_HOMEPAGE}"
@@ -87,6 +93,7 @@ services:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
       - ./compose/actualbudget/dynamic.yaml:/etc/traefik/dynamic/actualbudget.yaml
+      - ./compose/firefly/dynamic.yaml:/etc/traefik/dynamic/firefly.yaml
       - ./compose/freshrss/dynamic.yaml:/etc/traefik/dynamic/freshrss.yaml
       - ./compose/hoarder/dynamic.yaml:/etc/traefik/dynamic/hoarder.yaml
       - ./compose/homepage/dynamic.yaml:/etc/traefik/dynamic/homepage.yaml

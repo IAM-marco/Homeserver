@@ -1,0 +1,57 @@
+services:
+  firefly-db:
+    image: postgres:18-alpine
+    container_name: firefly-db
+    env_file: .firefly-db.env
+    volumes:
+      - ~/volumes/firefly-db:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      - backend
+
+  firefly:
+    image: fireflyiii/core:latest
+    container_name: firefly
+    env_file: .firefly.env
+    volumes:
+      - ~/volumes/firefly-upload:/var/www/html/storage/upload
+    depends_on:
+      firefly-db:
+        condition: service_healthy
+      traefik:
+        condition: service_started
+    labels:
+      - homepage.group=Finance
+      - homepage.name=Firefly III
+      - homepage.icon=firefly-iii.svg
+      - homepage.href=https://${FIREFLY_ENDPOINT_URL}
+      - homepage.description=Personal finance manager
+    restart: unless-stopped
+    networks:
+      - frontend
+      - backend
+
+  firefly-importer:
+    image: fireflyiii/data-importer:latest
+    container_name: firefly-importer
+    env_file: .firefly-importer.env
+    volumes:
+      - ~/volumes/firefly-import:/import
+    depends_on:
+      - firefly
+    labels:
+      - homepage.group=Finance
+      - homepage.name=Firefly III Importer
+      - homepage.icon=firefly-iii.svg
+      - homepage.href=http://${IP_ADDRESS}:${PORT_FIREFLY_IMPORTER}
+      - homepage.description=Import data into Firefly III
+    restart: unless-stopped
+    networks:
+      - frontend
+      - backend

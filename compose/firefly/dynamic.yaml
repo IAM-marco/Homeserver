@@ -1,0 +1,21 @@
+http:
+  routers:
+    firefly:
+      entryPoints:
+        - firefly
+      rule: Host(`{{ env "FIREFLY_ENDPOINT_URL" }}`)
+      service: firefly-service
+    firefly-importer:
+      entryPoints:
+        - firefly-importer
+      rule: Host(`{{ env "IP_ADDRESS" }}`)
+      service: firefly-importer-service
+  services:
+    firefly-service:
+      loadBalancer:
+        servers:
+          - url: http://firefly:8080
+    firefly-importer-service:
+      loadBalancer:
+        servers:
+          - url: http://firefly-importer:8080
