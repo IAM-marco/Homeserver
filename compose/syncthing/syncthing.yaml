@@ -15,6 +15,7 @@ services:
     volumes:
       - ~/volumes/syncthing-config:/config
       - ~/volumes/pinchflat-downloads:/pinchflat-downloads
+      - ~/volumes/firefly-import/yuh/inbox:/firefly-yuh-inbox
     restart: unless-stopped
     depends_on:
       - traefik
