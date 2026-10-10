@@ -1,9 +1,9 @@
 include:
-  - compose/actualbudget/actualbudget.yaml
+  # - compose/actualbudget/actualbudget.yaml
   - compose/firefly/firefly.yaml
   # - compose/duckdns.yaml
   - compose/freshrss/freshrss.yaml
-  - compose/invoiceninja/invoiceninja.yaml
+  # - compose/invoiceninja/invoiceninja.yaml
   - compose/hoarder/hoarder.yaml
   - compose/homepage/homepage.yaml
   - compose/manyfold/manyfold.yaml
@@ -39,7 +39,7 @@ services:
       - --providers.file.watch=true
 
       - --entryPoints.webSecure.address=:443
-      - --entryPoints.actualbudget.address=:${PORT_ACTUALBUDGET}
+      # - --entryPoints.actualbudget.address=:${PORT_ACTUALBUDGET}
       - --entryPoints.firefly.address=:${PORT_FIREFLY}
       - --entryPoints.firefly.forwardedHeaders.insecure
       - --entryPoints.firefly-importer.address=:${PORT_FIREFLY_IMPORTER}
@@ -92,7 +92,7 @@ services:
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./compose/actualbudget/dynamic.yaml:/etc/traefik/dynamic/actualbudget.yaml
+      # - ./compose/actualbudget/dynamic.yaml:/etc/traefik/dynamic/actualbudget.yaml
       - ./compose/firefly/dynamic.yaml:/etc/traefik/dynamic/firefly.yaml
       - ./compose/freshrss/dynamic.yaml:/etc/traefik/dynamic/freshrss.yaml
       - ./compose/hoarder/dynamic.yaml:/etc/traefik/dynamic/hoarder.yaml
